@@ -19,6 +19,20 @@ string connection = builder.Configuration.GetConnectionString("DefaultConnection
 builder.Services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(connection));
 builder.Services.AddScoped<IUserService, UserService>();
 
+builder.Services.AddSwaggerGen(settings =>
+{
+    settings.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "User management webapi",
+        Version = "v1",
+        Description = "User management webapi"
+    });
+    settings.EnableAnnotations();
+});
+
+
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

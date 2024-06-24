@@ -2,5 +2,6 @@
 {
     public interface IDiscountStrategy
     {
+        public decimal CalcDiscount(Enum accountType);
     }
 }
