@@ -51,16 +51,13 @@ namespace UserManagementApi.Controllers
         [HttpPut("{id}")]
         public ActionResult UpdateUser(int id, [FromBody] User newData)
         {
-            if (newData == null)
+            if (newData.Id != id)
                 return BadRequest();
             var user = GetUserById(id);
             if (user == null)
                 return NotFound();
-            user.FirstName = newData.FirstName ?? user.FirstName;
-            user.LastName = newData.LastName ?? user.LastName;
-            user.Email = newData.Email ?? user.Email;
-            user.DateOfBirth = newData.DateOfBirth != DateTime.MinValue ? newData.DateOfBirth : user.DateOfBirth;
-            user.AccountType = newData.AccountType;
+
+            _applicationContext.Entry(newData).State = EntityState.Modified;
             _applicationContext.SaveChangesAsync();
             return Ok();
         }
@@ -82,9 +79,9 @@ namespace UserManagementApi.Controllers
         public ActionResult<List<User>> SearchUsers(string search)
         {
             search = search.ToLower();
-            var users = _applicationContext.Users.Where(user => user.FirstName.ToLower().Equals(search)
-                    || user.LastName.ToLower().Equals(search)
-                    || user.Email.ToLower().Equals(search))
+            var users = _applicationContext.Users.Where(user => user.FirstName.ToLower().Contains(search)
+                    || user.LastName.ToLower().Contains(search)
+                    || user.Email.ToLower().Contains(search))
                 .ToList();
             return Ok(users);
         }
