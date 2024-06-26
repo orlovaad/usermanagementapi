@@ -2,5 +2,6 @@
 {
     public interface IFeatureAccessStrategy
     {
+        public string GetFeatures();
     }
 }

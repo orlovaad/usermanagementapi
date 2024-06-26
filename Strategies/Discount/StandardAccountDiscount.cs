@@ -2,7 +2,7 @@
 {
     public class StandardAccountDiscount : IDiscountStrategy
     {
-        public decimal CalcDiscount(Enum accountType)
+        public decimal CalcDiscount()
         {
             return 10;
         }
